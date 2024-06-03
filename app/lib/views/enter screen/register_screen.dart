@@ -35,7 +35,8 @@ class RegisterScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w300,
-                              fontStyle: FontStyle.italic
+                              fontStyle: FontStyle.italic,
+                              color: Colors.black38
                             ),
                           ),
                           Text(
@@ -43,7 +44,8 @@ class RegisterScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic
+                              fontStyle: FontStyle.italic,
+                              color: Colors.black
                             ),
                           ),
                         ],

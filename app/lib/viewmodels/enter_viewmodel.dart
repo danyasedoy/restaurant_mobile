@@ -81,7 +81,10 @@ class EnterViewModel extends AbstractViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  bool isValidated() {
+  bool isValidated({bool isForAuth = false}) {
+    if (isForAuth) {
+      return state.isLoginValid && state.isPasswordValid;
+    }
     return state.isLoginValid && state.isPasswordValid && state.isFirstNameValid && state.isLastNameValid && state.isPhoneNumberValid;
   }
 
