@@ -21,19 +21,19 @@ class AuthScreen extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(45))
                     ),
                     child: const Padding(
-                      padding: EdgeInsets.all(20.0),
+                      padding: EdgeInsets.symmetric(horizontal: 20.0),
                       child: Column(
                         children: [
                           Text(
                             'Добро пожаловать в ... ',
                             style: TextStyle(
                                 fontSize: 20,
-                                fontWeight: FontWeight.w200,
+                                fontWeight: FontWeight.w300,
                                 fontStyle: FontStyle.italic
                             ),
                           ),
                           Text(
-                            'Х р ю ч е в о !',
+                            'Хрючево!',
                             style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
