@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
           error: Colors.red,
           onError: Colors.redAccent,
           surface: Colors.black,
-          onSurface: Colors.white
+          onSurface: Colors.deepOrangeAccent
         ),
         useMaterial3: true,
       ),

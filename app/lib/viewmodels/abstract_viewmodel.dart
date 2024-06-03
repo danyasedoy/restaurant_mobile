@@ -1,9 +1,7 @@
 import 'package:app/models/services/abstract_service.dart';
 
 abstract class AbstractViewModel {
-  final AbstractService service;
-
-  AbstractViewModel(this.service);
+  late AbstractService service;
 
   String getRole() {
     // TODO
