@@ -25,7 +25,7 @@ class AuthScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                            'Добро пожаловать в ... ',
+                            'С возвращением в ... ',
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w300,
@@ -53,9 +53,16 @@ class AuthScreen extends StatelessWidget {
                         fontSize: 20
                       ),
                   ),
-                  const TextField(),
+                  const TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Логин', // Tip text displayed when the field is empty
+                    ),
+                  ),
                   const TextField(
                     obscureText: true,
+                    decoration: InputDecoration(
+                      hintText: 'Пароль', // Tip text displayed when the field is empty
+                    ),
                   ),
                   const SizedBox(
                     height: 50,
@@ -76,7 +83,7 @@ class AuthScreen extends StatelessWidget {
                     ),
                   ),
                   TextButton(
-                      onPressed: ()=>{},
+                      onPressed: ()=>{Navigator.pushReplacementNamed(context, '/register')},
                       child: const Text(
                         'У меня нет аккаунта!',
                         style: TextStyle(
