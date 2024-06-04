@@ -49,7 +49,7 @@ class EnterViewModel extends AbstractViewModel with ChangeNotifier {
   }
 
   validateFirstName(String newName) {
-    if (newName.isEmpty || newName.length < 8) {
+    if (newName.isEmpty || newName.length < 2) {
       state.isFirstNameValid = false;
     }
     else{
@@ -60,7 +60,7 @@ class EnterViewModel extends AbstractViewModel with ChangeNotifier {
   }
 
   validateLastName(String newName) {
-    if (newName.isEmpty || newName.length < 8) {
+    if (newName.isEmpty || newName.length < 2) {
       state.isLastNameValid = false;
     }
     else{
@@ -71,10 +71,10 @@ class EnterViewModel extends AbstractViewModel with ChangeNotifier {
   }
 
   validatePhoneNumber(String newNumber) {
-    if (newNumber.isEmpty || newNumber.length < 8) {
+    final phoneRegex = RegExp(r'^\+?[0-9]{10,15}$');
+    if (newNumber.isEmpty || !phoneRegex.hasMatch(newNumber)) {
       state.isPhoneNumberValid = false;
-    }
-    else{
+    } else {
       state.isPhoneNumberValid = true;
       state.phoneNumber = newNumber;
     }

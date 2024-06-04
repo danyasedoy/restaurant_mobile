@@ -104,10 +104,13 @@ class RegisterScreen extends StatelessWidget {
                       },
                     ),
                     TextField(
+                      keyboardType: TextInputType.phone,
+                      maxLength: 10,
                       decoration: InputDecoration(
                         hintText: 'Телефон',
                         errorText: viewModel.state.isPhoneNumberValid ? null : 'Введите корректный номер',
                         prefixIcon: Icon(viewModel.state.isPhoneNumberValid ? Icons.check : Icons.error),
+                        prefixText: '+7 '
                       ),
                       onChanged: (text) {
                         viewModel.validatePhoneNumber(text);
