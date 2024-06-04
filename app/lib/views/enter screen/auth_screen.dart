@@ -11,6 +11,25 @@ class AuthScreen extends StatelessWidget {
       create: (_) => EnterViewModel(),
       child: Consumer<EnterViewModel>(
         builder: (context, viewModel, child) {
+          if (viewModel.state.loginStatus == LoginStatus.error) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Ошибка авторизации. Повторите попытку.")),
+              );
+            });
+            viewModel.state.loginStatus = LoginStatus.initial;
+          }
+          if (viewModel.state.loginStatus == LoginStatus.loading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          else if (viewModel.state.loginStatus == LoginStatus.success) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              // TODO correct navigation
+              Navigator.pushReplacementNamed(context, '/register');
+            });
+            return const SizedBox.shrink();
+          }
+          else {
           return Scaffold(
             body: Center(
               child: ConstrainedBox(
@@ -89,7 +108,7 @@ class AuthScreen extends StatelessWidget {
                       SizedBox(
                         width: 300,
                         child: ElevatedButton(
-                          onPressed: viewModel.isValidated(isForAuth: true) ? ()=>{} : null,
+                          onPressed: viewModel.isValidated(isForAuth: true) ? ()=>{viewModel.login()} : null,
                           style: ButtonStyle(
                               backgroundColor: WidgetStateProperty.all(
                                   Colors.white)
@@ -124,6 +143,7 @@ class AuthScreen extends StatelessWidget {
               ),
             ),
           );
+          }
         }
       ),
     );

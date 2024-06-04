@@ -20,6 +20,7 @@ class EnterScreenState {
   bool isPhoneNumberValid = false;
 
   var registrationStatus = RegistrationStatus.initial;
+  var loginStatus = LoginStatus.initial;
 
   void reset() {
     login = null;
@@ -42,8 +43,21 @@ class EnterViewModel extends AbstractViewModel with ChangeNotifier {
   @override
   final service = EnterService() as AbstractService;
 
-  login() {
-    // TODO
+  Future<void> login() async{
+    // TODO : imitation only
+    state.loginStatus = LoginStatus.loading;
+    notifyListeners();
+
+    await Future.delayed(const Duration(seconds: 2));
+
+    state.loginStatus = LoginStatus.success;
+
+    if (state.loginStatus == LoginStatus.error) {
+      state.reset();
+      state.loginStatus = LoginStatus.error;
+    }
+    notifyListeners();
+
   }
 
   Future<void> register() async{
@@ -132,4 +146,12 @@ enum RegistrationStatus {
   success,
   error
 }
+
+enum LoginStatus {
+  initial,
+  loading,
+  success,
+  error
+}
+
 
