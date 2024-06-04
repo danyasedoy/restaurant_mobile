@@ -19,12 +19,48 @@ class EnterScreenState {
   String? phoneNumber;
   bool isPhoneNumberValid = false;
 
+  var registrationStatus = RegistrationStatus.initial;
+
+  void reset() {
+    login = null;
+    isLoginValid = false;
+    password = null;
+    isPasswordValid = false;
+    firstName = null;
+    isFirstNameValid = false;
+    lastName = null;
+    isLastNameValid = false;
+    phoneNumber = null;
+    isPhoneNumberValid = false;
+    registrationStatus = RegistrationStatus.initial;
+  }
+
 }
 
 class EnterViewModel extends AbstractViewModel with ChangeNotifier {
   final state = EnterScreenState();
   @override
   final service = EnterService() as AbstractService;
+
+  login() {
+    // TODO
+  }
+
+  Future<void> register() async{
+    // TODO : imitation only
+    state.registrationStatus = RegistrationStatus.loading;
+    notifyListeners();
+
+    await Future.delayed(const Duration(seconds: 2));
+
+    state.registrationStatus = RegistrationStatus.success;
+
+    if (state.registrationStatus == RegistrationStatus.error) {
+      state.reset();
+      state.registrationStatus = RegistrationStatus.error;
+    }
+    notifyListeners();
+  }
 
   validateLogin(String newLogin) {
     if (newLogin.isEmpty || newLogin.length < 8) {
@@ -88,5 +124,12 @@ class EnterViewModel extends AbstractViewModel with ChangeNotifier {
     return state.isLoginValid && state.isPasswordValid && state.isFirstNameValid && state.isLastNameValid && state.isPhoneNumberValid;
   }
 
+}
+
+enum RegistrationStatus {
+  initial,
+  loading,
+  success,
+  error
 }
 

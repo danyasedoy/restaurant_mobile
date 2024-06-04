@@ -7,10 +7,29 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return ChangeNotifierProvider(
       create: (_) => EnterViewModel(),
       child: Consumer<EnterViewModel>(
         builder: (context, viewModel, child) {
+          if (viewModel.state.registrationStatus == RegistrationStatus.error) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Ошибка регистрации. Повторите попытку.")),
+              );
+            });
+            viewModel.state.registrationStatus = RegistrationStatus.initial;
+          }
+          if (viewModel.state.registrationStatus == RegistrationStatus.loading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          else if (viewModel.state.registrationStatus == RegistrationStatus.success) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Navigator.pushReplacementNamed(context, '/auth');
+            });
+            return const SizedBox.shrink();
+          }
+          else {
           return Scaffold(
             body: Center(
               child: ConstrainedBox(
@@ -122,10 +141,11 @@ class RegisterScreen extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
+
                     SizedBox(
                       width: 300,
                       child: ElevatedButton(
-                        onPressed: viewModel.isValidated() ? ()=>{} : null,
+                        onPressed: viewModel.isValidated() ? ()=>{viewModel.register()} : null,
                         style: ButtonStyle(
                           backgroundColor: WidgetStateProperty.all(Colors.white),
                         ),
@@ -152,6 +172,7 @@ class RegisterScreen extends StatelessWidget {
               ),
             )
           );
+          }
         }
     ));
   }
