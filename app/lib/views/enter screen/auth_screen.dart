@@ -24,8 +24,7 @@ class AuthScreen extends StatelessWidget {
           }
           else if (viewModel.state.loginStatus == LoginStatus.success) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              // TODO correct navigation
-              Navigator.pushReplacementNamed(context, '/register');
+              Navigator.pushReplacementNamed(context, '/main');
             });
             return const SizedBox.shrink();
           }
