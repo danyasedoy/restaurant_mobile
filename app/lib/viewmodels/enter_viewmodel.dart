@@ -34,6 +34,7 @@ class EnterScreenState {
     phoneNumber = null;
     isPhoneNumberValid = false;
     registrationStatus = RegistrationStatus.initial;
+    loginStatus = LoginStatus.initial;
   }
 
 }

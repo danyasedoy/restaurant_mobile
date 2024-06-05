@@ -1,4 +1,6 @@
+import 'package:app/viewmodels/booking_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -66,9 +68,71 @@ class BookingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('Бронирование'));
+    return ChangeNotifierProvider(
+      create: (_) => BookingViewModel(),
+      child: Consumer<BookingViewModel>(
+        builder: (context, viewModel, child) {
+          return Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 300),
+              child: const SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    TableSelector()
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
+      ),
+    );
   }
 }
+
+class TableSelector extends StatelessWidget {
+  const TableSelector({super.key});
+  @override
+  Widget build(BuildContext context) {
+    final viewModel = Provider.of<BookingViewModel>(context);
+    final state = viewModel.state;
+
+    if (state.tables == null) {
+      return const CircularProgressIndicator();
+    }
+    else if (state.tables!.isEmpty) {
+      return const Text('Нет доступных столов');
+    }
+    else {
+      return DropdownButtonFormField<int>(
+        decoration: const InputDecoration(labelText: 'Выберите столик'),
+        value: state.tableNum,
+        onChanged: (tableNum) => viewModel.selectTable(tableNum!),
+        items: state.tables!.map((tableNum) {
+          return DropdownMenuItem<int>(
+            value: tableNum,
+            child: Text('Столик №$tableNum'),
+          );
+        }).toList(),
+      );
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class ProductsScreen extends StatelessWidget {
   const ProductsScreen({super.key});
