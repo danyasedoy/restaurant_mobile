@@ -71,21 +71,90 @@ class BookingScreen extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => BookingViewModel(),
       child: Consumer<BookingViewModel>(
-        builder: (context, viewModel, child) {
-          return Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 300),
-              child: const SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    TableSelector()
-                  ],
+        builder: (context, viewModel, child)
+        {
+          if (viewModel.state.message.isNotEmpty) {
+            final message = viewModel.state.message;
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(message, style: const TextStyle(color: Colors.white),)),
+              );
+            });
+            viewModel.state.message = "";
+          }
+          if (viewModel.state.isBookButtonPressed) {
+            return const CircularProgressIndicator();
+          }
+          else if (viewModel.state.booking != null) {
+            return Center(
+              child: Card(
+                elevation: 20,
+                shadowColor: Colors.deepOrange,
+                color: Colors.white,
+                child: SizedBox(
+                  width: 300,
+                  height: 300,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      const Icon(Icons.check_circle, color: Colors.deepOrange, size: 40),
+                      const Text("Вы забронировали столик!", style: TextStyle(fontSize: 20),),
+                      Text("Дата: ${viewModel.state.booking!.dateTime.toString().substring(0,10)}", style: const TextStyle(fontSize: 20),),
+                      Text("Номер столика: №${viewModel.state.booking!.tableNum}", style: const TextStyle(fontSize: 20),),
+                      ElevatedButton(
+                        onPressed: viewModel.cancelBooking,
+                        style: ButtonStyle(
+                            backgroundColor: WidgetStateProperty.all(Colors.redAccent)
+                        ),
+                        child: const Text(
+                          "Отменить",
+                          style: TextStyle(
+                              color: Colors.white
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
+            );
+          }
+          else {
+            return Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 300),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text("Дата бронирования"),
+                      const DatePicker(),
+                      const SizedBox( height: 50,),
+                      if (viewModel.state.dateTime != null) const TableSelector(),
+                      const SizedBox( height: 50,),
+                      if (viewModel.state.tableNum != null)
+                        SizedBox(
+                          width: 300,
+                          child: ElevatedButton(
+                            onPressed: viewModel.bookTable,
+                            style: ButtonStyle(
+                                backgroundColor: WidgetStateProperty.all(Colors.deepOrange)
+                            ),
+                            child: const Text(
+                              "Забронировать",
+                              style: TextStyle(
+                                  color: Colors.white
+                              ),
+                            ),
+                          ),
+                        )
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }
         }
       ),
     );
@@ -121,6 +190,46 @@ class TableSelector extends StatelessWidget {
   }
 }
 
+class DatePicker extends StatelessWidget {
+  const DatePicker({super.key});
+
+  Future<void> _selectDate(BuildContext context) async {
+    final viewModel = Provider.of<BookingViewModel>(context, listen: false);
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: viewModel.state.dateTime ?? DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != viewModel.state.dateTime) {
+      viewModel.selectDateTime(picked);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final viewModel = Provider.of<BookingViewModel>(context);
+    final state = viewModel.state;
+
+    return SizedBox(
+      width: 300,
+      child: ElevatedButton(
+        onPressed: () => _selectDate(context),
+        style: ButtonStyle(
+          backgroundColor: WidgetStateProperty.all(Colors.deepOrange)
+        ),
+        child: Text(
+            state.dateTime != null
+            ? viewModel.state.dateTime.toString().substring(0,10)
+            : 'Выберите дату',
+          style: const TextStyle(
+            color: Colors.white
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 
 
