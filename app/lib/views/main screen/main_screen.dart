@@ -13,10 +13,10 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
-  static const List<Widget> _tabOptions = <Widget>[
-    BookingScreen(),
-    ProductsScreen(),
-    OrdersScreen(),
+  static final List<Widget> _tabOptions = <Widget>[
+    const BookingScreen(),
+    const ProductsScreen(),
+    const OrdersScreen(),
   ];
 
   void _onItemTapped(int index) {
