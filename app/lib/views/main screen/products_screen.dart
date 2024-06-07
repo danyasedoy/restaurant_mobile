@@ -1,5 +1,6 @@
 import 'package:app/models/entities/product_entity.dart';
 import 'package:app/viewmodels/order_viewmodel.dart';
+import 'package:app/views/main%20screen/order_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -31,7 +32,9 @@ class ProductsScreen extends StatelessWidget {
                   right: 16.0,
                   child: FloatingActionButton(
                     onPressed: () {
-                      // Действие при нажатии на кнопку
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => OrderScreen(order: viewModel.state.order!))
+                      );
                     },
                     child: const Icon(Icons.shopping_cart, color: Colors.white,),
                   ),

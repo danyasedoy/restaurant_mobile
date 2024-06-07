@@ -15,28 +15,34 @@ class OrderViewModel extends AbstractViewModel with ChangeNotifier {
   final OrderService service = OrderService();
 
   Future<List<ProductEntity>> fetchProducts() async {
-    await getOrder();
-    notifyListeners();
+    await loadOrder();
     return await service.getProducts();
   }
 
-  Future<void> saveOrder() async{
+  Future<void> saveOrder({OrderEntity? order}) async{
+    if (order!= null) {
+      await service.saveOrder(order);
+      return;
+    }
     if (state.order != null) await service.saveOrder(state.order!);
   }
 
-  Future<void> getOrder() async{
+  Future<void> loadOrder() async{
     state.order = await service.getOrder();
+    notifyListeners();
   }
 
   addProductToOrder(ProductEntity product) {
+    product.count = 1;
     if (state.order == null) {
       state.order = OrderEntity(null, DateTime.now(), null, null);
       state.order!.products.add(product);
     }
     else {
-      if (state.order!.products.contains(product)) {
-        final index = state.order!.products.indexOf(product);
-        state.order!.products[index].count += 1;
+      if (state.order!.products.any((prod) => prod.id == product.id)) {
+        state.message = "${product.name} уже добавлен в заказ";
+        notifyListeners();
+        return;
       }
       else {
         state.order!.products.add(product);
@@ -47,5 +53,8 @@ class OrderViewModel extends AbstractViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> confirmOrder(OrderEntity order) async{
+    // TODO
+  }
 
 }

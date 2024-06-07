@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/auth': (context) => const AuthScreen(),
         '/register': (context) => const RegisterScreen(),
-        '/main': (context) => const MainScreen(),
+        '/main': (context) => const MainScreen()
       },
       theme: ThemeData(
         colorScheme: const ColorScheme(
