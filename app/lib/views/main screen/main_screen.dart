@@ -4,7 +4,8 @@ import 'booking_screen.dart';
 import 'orders_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  const MainScreen({super.key, this.destinationTab});
+  final int? destinationTab;
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -12,6 +13,12 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 1;
+
+  @override
+  void initState() {
+    if (widget.destinationTab != null) _selectedIndex = widget.destinationTab!;
+    super.initState();
+  }
 
   static final List<Widget> _tabOptions = <Widget>[
     const BookingScreen(),

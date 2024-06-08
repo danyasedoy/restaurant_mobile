@@ -19,4 +19,8 @@ class OrderService extends AbstractService {
   Future<OrderEntity?> getOrder() async {
     return await storageProvider.loadOrderFromCache();
   }
+
+  Future<void> proceedOrder() async {
+    await storageProvider.deleteOrderFromCache();
+  }
 }

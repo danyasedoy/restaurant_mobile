@@ -1,5 +1,6 @@
 import 'package:app/models/entities/order_entity.dart';
 import 'package:app/viewmodels/order_viewmodel.dart';
+import 'package:app/views/main%20screen/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -84,7 +85,13 @@ class _OrderScreenState extends State<OrderScreen> {
                     bottom: 32.0,
                     right: 16.0,
                     child: ElevatedButton(
-                      onPressed: ()=>{viewModel.confirmOrder(widget.order)},
+                      onPressed: ()=>{
+                        viewModel.confirmOrder(widget.order)
+                          .then((_) => Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (context) => const MainScreen(destinationTab: 2,))
+                          )
+                        )
+                      },
                       style: ButtonStyle(
                           backgroundColor: WidgetStateProperty.all(Colors.deepOrange)
                       ),

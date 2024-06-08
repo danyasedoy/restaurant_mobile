@@ -18,4 +18,9 @@ class StorageProvider {
     }
     return null;
   }
+
+  Future<void> deleteOrderFromCache() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('order');
+  }
 }
