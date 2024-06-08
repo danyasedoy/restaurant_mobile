@@ -3,8 +3,8 @@ import 'package:app/models/entities/product_entity.dart';
 class OrderEntity {
   final int? id;
   final DateTime dateTime;
-  final String? address;
-  final int? tableNum;
+  String? address;
+  int? tableNum;
   OrderStatus status = OrderStatus.initial;
   List<ProductEntity> products = [];
 
@@ -16,7 +16,7 @@ class OrderEntity {
         address = json['address'],
         tableNum = json['tableNum'],
         status = OrderStatus.values.firstWhere(
-                (e) => e.toString() == 'OrderStatus.' + (json['status'] as String)),
+                (e) => e.toString() == 'OrderStatus.${json['status'] as String}'),
         products = (json['products'] as List<dynamic>)
             .map((e) => ProductEntity.fromJson(e as Map<String, dynamic>))
             .toList();
