@@ -10,6 +10,18 @@ class OrderEntity {
 
   OrderEntity(this.id, this.dateTime, this.address, this.tableNum);
 
+  factory OrderEntity.existingWithTable(int id, DateTime dateTime, int tableNum, OrderStatus status) {
+    var order =  OrderEntity(id, dateTime, null, tableNum);
+    order.status = status;
+    return order;
+  }
+
+  factory OrderEntity.existingDelivery(int id, DateTime dateTime, String address, OrderStatus status) {
+    var order =  OrderEntity(id, dateTime, address, null);
+    order.status = status;
+    return order;
+  }
+
   OrderEntity.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         dateTime = DateTime.parse(json['dateTime']),

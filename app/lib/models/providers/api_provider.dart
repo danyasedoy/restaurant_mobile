@@ -46,4 +46,9 @@ class ApiProvider {
     await Future.delayed(const Duration(seconds: 2));
   }
 
+  Future<dynamic> getUserOrders() async {
+    // ждем список заказов пользователя (и старых и активных)
+    await Future.delayed(const Duration(seconds: 2));
+  }
+
 }
