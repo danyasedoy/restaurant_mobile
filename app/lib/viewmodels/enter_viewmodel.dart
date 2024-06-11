@@ -1,4 +1,3 @@
-import 'package:app/models/services/abstract_service.dart';
 import 'package:app/models/services/enter_service.dart';
 import 'package:app/viewmodels/abstract_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -42,16 +41,20 @@ class EnterScreenState {
 class EnterViewModel extends AbstractViewModel with ChangeNotifier {
   final state = EnterScreenState();
   @override
-  final service = EnterService() as AbstractService;
+  final EnterService service = EnterService();
 
   Future<void> login() async{
-    // TODO : imitation only
     state.loginStatus = LoginStatus.loading;
     notifyListeners();
 
-    await Future.delayed(const Duration(seconds: 2));
+    var response = await service.login(state.login!, state.password!);
 
-    state.loginStatus = LoginStatus.success;
+    if (response) {
+      state.loginStatus = LoginStatus.success;
+    }
+    else {
+      state.loginStatus = LoginStatus.error;
+    }
 
     if (state.loginStatus == LoginStatus.error) {
       state.reset();
@@ -62,13 +65,17 @@ class EnterViewModel extends AbstractViewModel with ChangeNotifier {
   }
 
   Future<void> register() async{
-    // TODO : imitation only
     state.registrationStatus = RegistrationStatus.loading;
     notifyListeners();
 
-    await Future.delayed(const Duration(seconds: 2));
+    final response = await service.register(state.login!, state.password!, state.firstName!, state.lastName!, state.phoneNumber!);
 
-    state.registrationStatus = RegistrationStatus.success;
+    if (response){
+      state.registrationStatus = RegistrationStatus.success;
+    }
+    else {
+      state.registrationStatus = RegistrationStatus.error;
+    }
 
     if (state.registrationStatus == RegistrationStatus.error) {
       state.reset();

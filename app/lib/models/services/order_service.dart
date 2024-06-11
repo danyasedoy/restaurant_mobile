@@ -4,7 +4,7 @@ import 'package:app/models/services/abstract_service.dart';
 
 class OrderService extends AbstractService {
   Future<List<ProductEntity>> getProducts() async {
-    await Future.delayed(const Duration(seconds: 2));
+    await apiProvider.getProductsList();
     return [
       ProductEntity(1, 'Пицца-пицца, паста-паста, карборана-шмара', 120),
       ProductEntity(2, 'Шаварма', 100),
@@ -20,7 +20,7 @@ class OrderService extends AbstractService {
     return await storageProvider.loadOrderFromCache();
   }
 
-  Future<void> proceedOrder() async {
+  Future<void> proceedOrder(OrderEntity order) async {
     await storageProvider.deleteOrderFromCache();
   }
 }
