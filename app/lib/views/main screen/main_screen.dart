@@ -1,4 +1,5 @@
 import 'package:app/views/main%20screen/products_screen.dart';
+import 'package:app/views/main%20screen/promotion_screen.dart';
 import 'package:flutter/material.dart';
 import 'booking_screen.dart';
 import 'orders_screen.dart';
@@ -24,6 +25,7 @@ class _MainScreenState extends State<MainScreen> {
     const BookingScreen(),
     const ProductsScreen(),
     const OrdersScreen(),
+    const PromotionScreen()
   ];
 
   void _onItemTapped(int index) {
@@ -49,6 +51,7 @@ class _MainScreenState extends State<MainScreen> {
         child: _tabOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month),
@@ -61,6 +64,10 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.view_list),
             label: 'Заказы',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.featured_play_list_sharp),
+            label: 'Новости',
           ),
         ],
         currentIndex: _selectedIndex,

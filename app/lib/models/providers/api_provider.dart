@@ -51,4 +51,9 @@ class ApiProvider {
     await Future.delayed(const Duration(seconds: 2));
   }
 
+  Future<dynamic> getPromoMaterials() async {
+    // ждем список вот этих промоновостей ну вы поняли
+    await Future.delayed(const Duration(seconds: 2));
+  }
+
 }
