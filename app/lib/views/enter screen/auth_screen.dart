@@ -2,6 +2,8 @@ import 'package:app/viewmodels/enter_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../main screen/main_screen.dart';
+
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
 
@@ -23,8 +25,11 @@ class AuthScreen extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
           else if (viewModel.state.loginStatus == LoginStatus.success) {
+            final roleId = viewModel.state.roleId;
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              Navigator.pushReplacementNamed(context, '/main');
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => MainScreen(roleId: roleId,))
+              );
             });
             return const SizedBox.shrink();
           }

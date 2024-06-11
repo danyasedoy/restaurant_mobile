@@ -23,4 +23,24 @@ class StorageProvider {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('order');
   }
+
+  Future<void> saveToken(String token) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('token', token);
+  }
+
+  Future<String?> loadToken(String token) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
+  }
+
+  Future<void> saveUserRoleId(int roleId) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('role', roleId);
+  }
+
+  Future<int?> loadUserRoleId() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('role');
+  }
 }

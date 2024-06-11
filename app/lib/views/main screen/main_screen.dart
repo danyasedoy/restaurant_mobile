@@ -5,8 +5,9 @@ import 'booking_screen.dart';
 import 'orders_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key, this.destinationTab});
+  const MainScreen({super.key, this.destinationTab, this.roleId});
   final int? destinationTab;
+  final int? roleId;
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -15,18 +16,29 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 1;
 
+  static late List<Widget> _tabOptions;
+
   @override
   void initState() {
     if (widget.destinationTab != null) _selectedIndex = widget.destinationTab!;
+    if (widget.roleId == null || widget.roleId == 0) {
+      _tabOptions = <Widget>[
+        const BookingScreen(),
+        const ProductsScreen(),
+        const OrdersScreen(),
+        const PromotionScreen()
+      ];
+    }
+    else if (widget.roleId == 1) {
+      // экраны официанта
+    }
+    else {
+      // экраны курьера
+    }
     super.initState();
   }
 
-  static final List<Widget> _tabOptions = <Widget>[
-    const BookingScreen(),
-    const ProductsScreen(),
-    const OrdersScreen(),
-    const PromotionScreen()
-  ];
+
 
   void _onItemTapped(int index) {
     setState(() {

@@ -21,6 +21,8 @@ class EnterScreenState {
   var registrationStatus = RegistrationStatus.initial;
   var loginStatus = LoginStatus.initial;
 
+  int? roleId;
+
   void reset() {
     login = null;
     isLoginValid = false;
@@ -34,6 +36,7 @@ class EnterScreenState {
     isPhoneNumberValid = false;
     registrationStatus = RegistrationStatus.initial;
     loginStatus = LoginStatus.initial;
+    roleId = null;
   }
 
 }
@@ -50,6 +53,7 @@ class EnterViewModel extends AbstractViewModel with ChangeNotifier {
     var response = await service.login(state.login!, state.password!);
 
     if (response) {
+      state.roleId = await service.getRoleId();
       state.loginStatus = LoginStatus.success;
     }
     else {
@@ -145,6 +149,7 @@ class EnterViewModel extends AbstractViewModel with ChangeNotifier {
     }
     return state.isLoginValid && state.isPasswordValid && state.isFirstNameValid && state.isLastNameValid && state.isPhoneNumberValid;
   }
+
 
 }
 

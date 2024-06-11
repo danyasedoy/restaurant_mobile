@@ -31,7 +31,7 @@ class PromotionScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(20.0),
                       child: Container(
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.white),
+                          border: Border.all(color: Colors.deepOrange),
                           color: Colors.deepOrange
                         ),
                         child: Column(
