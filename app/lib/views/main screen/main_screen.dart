@@ -74,6 +74,9 @@ class _MainScreenState extends State<MainScreen> {
     }
     else {
       // экраны курьера
+      _tabOptions = <Widget>[
+        const OrdersScreen()
+      ];
     }
     super.initState();
   }
@@ -86,6 +89,23 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (_tabOptions.length == 1) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            '❤️Хрючево❤️',
+            style: TextStyle(
+                color: Colors.black
+            ),
+          ),
+          centerTitle: true,
+          backgroundColor: Colors.deepOrange,
+        ),
+        body: Center(
+          child: _tabOptions.first,
+        ),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text(
