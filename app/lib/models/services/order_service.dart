@@ -21,6 +21,14 @@ class OrderService extends AbstractService {
   }
 
   Future<void> proceedOrder(OrderEntity order) async {
+    await apiProvider.proceedOrder(order);
     await storageProvider.deleteOrderFromCache();
+  }
+
+  Future<dynamic> updateOrderStatus(OrderEntity order, OrderStatus newStatus) async{
+    if (newStatus == OrderStatus.served) {
+      await storageProvider.deleteOrderFromCache();
+    }
+    await apiProvider.updateOrderStatus(order.id!, newStatus.statusString);
   }
 }

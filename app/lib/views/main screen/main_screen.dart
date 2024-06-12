@@ -1,5 +1,6 @@
 import 'package:app/views/main%20screen/products_screen.dart';
 import 'package:app/views/main%20screen/promotion_screen.dart';
+import 'package:app/views/main%20screen/shift_screen.dart';
 import 'package:flutter/material.dart';
 import 'booking_screen.dart';
 import 'orders_screen.dart';
@@ -14,9 +15,10 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
 
   static late List<Widget> _tabOptions;
+  static late List<BottomNavigationBarItem> _bottomBarItems;
 
   @override
   void initState() {
@@ -28,17 +30,53 @@ class _MainScreenState extends State<MainScreen> {
         const OrdersScreen(),
         const PromotionScreen()
       ];
+
+      _bottomBarItems = const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(Icons.calendar_month),
+          label: 'Бронирование',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.fastfood),
+          label: 'Еда',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.view_list),
+          label: 'Заказы',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.featured_play_list_sharp),
+          label: 'Новости',
+        ),
+      ];
     }
     else if (widget.roleId == 1) {
       // экраны официанта
+      _tabOptions = <Widget>[
+        const ShiftScreen(),
+        const ProductsScreen(),
+        const OrdersScreen(),
+      ];
+      _bottomBarItems = const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(Icons.tiktok),
+          label: 'Смена',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.fastfood),
+          label: 'Еда',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.view_list),
+          label: 'Заказы',
+        ),
+      ];
     }
     else {
       // экраны курьера
     }
     super.initState();
   }
-
-
 
   void _onItemTapped(int index) {
     setState(() {
@@ -64,24 +102,7 @@ class _MainScreenState extends State<MainScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_month),
-            label: 'Бронирование',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.fastfood),
-            label: 'Еда',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.view_list),
-            label: 'Заказы',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.featured_play_list_sharp),
-            label: 'Новости',
-          ),
-        ],
+        items: _bottomBarItems,
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.deepOrange,
         onTap: _onItemTapped,

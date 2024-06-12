@@ -3,6 +3,8 @@ import 'package:app/viewmodels/orders_list_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'order_screen.dart';
+
 class OrdersScreen extends StatelessWidget {
   const OrdersScreen({super.key});
 
@@ -42,6 +44,7 @@ class OrdersScreen extends StatelessWidget {
                             ],
                           )
                         ),
+                        onTap: viewModel.isClient ? null: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => OrderScreen(order: order)));},
                       );
                     }
                     else {
@@ -58,6 +61,8 @@ class OrdersScreen extends StatelessWidget {
                             ],
                           ),
                         ),
+                        onTap: viewModel.isClient ? null: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => OrderScreen(order: order))
+                        );},
                       );
                     }
                   }

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 class OrderScreenState {
   OrderEntity? order;
+  int? roleId;
   String message = "";
 }
 
@@ -13,6 +14,14 @@ class OrderViewModel extends AbstractViewModel with ChangeNotifier {
   final state = OrderScreenState();
   @override
   final OrderService service = OrderService();
+
+  OrderViewModel() {
+    fetchRoleId();
+  }
+
+  Future<void> fetchRoleId() async {
+    state.roleId = await service.getRoleId();
+  }
 
   Future<List<ProductEntity>> fetchProducts() async {
     await loadOrder();
@@ -29,7 +38,9 @@ class OrderViewModel extends AbstractViewModel with ChangeNotifier {
 
   Future<void> loadOrder() async{
     state.order = await service.getOrder();
-    notifyListeners();
+    if (state.order != null) {
+      notifyListeners();
+    }
   }
 
   addProductToOrder(ProductEntity product) {
@@ -55,6 +66,10 @@ class OrderViewModel extends AbstractViewModel with ChangeNotifier {
 
   Future<void> confirmOrder(OrderEntity order) async{
     await service.proceedOrder(order);
+  }
+
+  Future<void> updateOrderStatus(OrderEntity order, OrderStatus newStatus) async {
+    await service.updateOrderStatus(order, newStatus);
   }
 
 }

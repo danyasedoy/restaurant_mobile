@@ -137,10 +137,6 @@ class AuthScreen extends StatelessWidget {
                             )
                         ),
                       ),
-                      TextButton(onPressed: viewModel.isValidated(isForAuth: true) ? ()=>{} : null,
-                          child: const Text('Войти как официант')),
-                      TextButton(onPressed: viewModel.isValidated(isForAuth: true) ? ()=>{} : null,
-                          child: const Text('Войти как курьер'))
                     ],
                   ),
                 ),

@@ -11,12 +11,17 @@ class StorageProvider {
   }
 
   Future<OrderEntity?> loadOrderFromCache() async {
-    final prefs = await SharedPreferences.getInstance();
-    final orderJson = prefs.getString('order');
-    if (orderJson != null) {
-      return OrderEntity.fromJson(jsonDecode(orderJson));
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final orderJson = prefs.getString('order');
+      if (orderJson != null) {
+        return OrderEntity.fromJson(jsonDecode(orderJson));
+      }
+      return null;
     }
-    return null;
+    on Exception {
+      return null;
+    }
   }
 
   Future<void> deleteOrderFromCache() async {

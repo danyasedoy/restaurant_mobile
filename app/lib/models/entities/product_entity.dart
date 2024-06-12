@@ -6,6 +6,12 @@ class ProductEntity {
 
   ProductEntity(this.id, this.name, this.price);
 
+  factory ProductEntity.withCount(int id, String name, double price, int count) {
+    var product = ProductEntity(id, name, price);
+    product.count = count;
+    return product;
+  }
+
   ProductEntity.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],

@@ -19,10 +19,95 @@ class _OrderScreenState extends State<OrderScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.order.id != null) {
+      return ChangeNotifierProvider(
+          create: (context) => OrderViewModel(),
+          child: Consumer<OrderViewModel>(
+              builder: (context, viewModel, child) {
+                return Scaffold(
+                  appBar: AppBar(
+                    title: Text(
+                      "Заказ №${widget.order.id}",
+                      style: const TextStyle(
+                          color: Colors.white
+                      ),
+                    ),
+                    actions: [
+                      ElevatedButton(
+                        onPressed: () => {
+                          Navigator.of(context).pop()
+                        },
+                        style: ButtonStyle(
+                            backgroundColor: WidgetStateProperty.all(Colors.transparent)
+                        ),
+                        child: const Text("К меню",
+                          style: TextStyle(
+                              color: Colors.white
+                          ),
+                        ),
+                      )
+                    ],
+                    centerTitle: true,
+                    backgroundColor: Colors.deepOrange,
+                  ),
+                  body: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height/ 2,
+                            child: ListView.separated(
+                              itemBuilder: (context, index) {
+                                final product = widget.order.products[index];
+                                return ListTile(
+                                  title: Text(product.name),
+                                  trailing: Text('${product.price} руб.'),
+                                  subtitle: Text("${product.count}"),
+                                );
+                              },
+                              separatorBuilder:(context, index) => const Divider(),
+                              itemCount: widget.order.products.length
+                            ),
+                          ),
+                          if (widget.order.status != OrderStatus.ready && widget.order.status != OrderStatus.delivery_taken)
+                            Text("Статус заказа: ${widget.order.status.statusString}", )
+                          else if (widget.order.tableNum != null)
+                            ElevatedButton(
+                              onPressed: ()=>{
+                                viewModel.updateOrderStatus(widget.order, OrderStatus.served),
+                                Navigator.of(context).pop()
+                              },
+                              style: ButtonStyle(
+                                backgroundColor: WidgetStateProperty.all(Colors.deepOrange),
+                              ),
+                              child: const Text("Заказ обслужен", style: TextStyle(color: Colors.white),)
+                            )
+                          else
+                            ElevatedButton(
+                              onPressed: ()=>{
+                                viewModel.updateOrderStatus(widget.order, OrderStatus.delivery_served),
+                                Navigator.of(context).pop()
+                              },
+                              style: ButtonStyle(
+                                backgroundColor: WidgetStateProperty.all(Colors.deepOrange),
+                              ),
+                              child: const Text("Заказ доставлен", style: TextStyle(color: Colors.white),)
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }
+          )
+      );
+    }
     return ChangeNotifierProvider(
       create: (context) => OrderViewModel(),
       child: Consumer<OrderViewModel>(
         builder: (context, viewModel, child) {
+          int? roleId;
           return Scaffold(
             appBar: AppBar(
               title: const Text(
@@ -35,7 +120,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 ElevatedButton(
                   onPressed: () => {
                     viewModel.saveOrder(order: widget.order),
-                    Navigator.pushReplacementNamed(context, '/main')
+                    Navigator.of(context).pop()
                   },
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all(Colors.transparent)
@@ -127,9 +212,10 @@ class _OrderScreenState extends State<OrderScreen> {
                     if (tableNumberController.text.isNotEmpty || addressController.text.isNotEmpty)
                       ElevatedButton(
                       onPressed: ()=>{
+                        roleId = viewModel.state.roleId,
                         viewModel.confirmOrder(widget.order)
                             .then((_) => Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (context) => const MainScreen(destinationTab: 2,))
+                            MaterialPageRoute(builder: (context) => MainScreen(destinationTab: 2, roleId: roleId,))
                         )
                         )
                       },
