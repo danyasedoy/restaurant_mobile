@@ -1,4 +1,5 @@
 import 'package:app/models/entities/product_entity.dart';
+import 'package:intl/intl.dart';
 
 class OrderEntity {
   final int? id;
@@ -26,7 +27,7 @@ class OrderEntity {
 
   OrderEntity.fromJson(Map<String, dynamic> json)
       : id = json['id'],
-        dateTime = DateTime.parse(json['dateTime']),
+        dateTime = DateFormat('dd.MM.yyyy HH:mm').parse(json['dateTime']),
         address = json['address'],
         tableNum = json['tableNum'],
         status = OrderStatus.values.firstWhere(
@@ -37,7 +38,7 @@ class OrderEntity {
 
   Map<String, dynamic> toJson() => {
     'id': id,
-    'dateTime': dateTime.toIso8601String(),
+    'dateTime': DateFormat('dd.MM.yyyy HH:mm').format(dateTime),
     'address': address,
     'tableNum': tableNum,
     'status': status.toString().split('.').last,

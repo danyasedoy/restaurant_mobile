@@ -60,4 +60,8 @@ class ApiProvider {
     await Future.delayed(const Duration(seconds: 2));
   }
 
+  Future<dynamic> getShiftData() async {
+    await Future.delayed(const Duration(seconds: 2));
+  }
+
 }
