@@ -1,6 +1,5 @@
 import 'package:app/models/entities/order_entity.dart';
 import 'package:app/viewmodels/order_viewmodel.dart';
-import 'package:app/views/main%20screen/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -107,7 +106,6 @@ class _OrderScreenState extends State<OrderScreen> {
       create: (context) => OrderViewModel(),
       child: Consumer<OrderViewModel>(
         builder: (context, viewModel, child) {
-          int? roleId;
           return Scaffold(
             appBar: AppBar(
               title: const Text(
@@ -212,12 +210,7 @@ class _OrderScreenState extends State<OrderScreen> {
                     if (tableNumberController.text.isNotEmpty || addressController.text.isNotEmpty)
                       ElevatedButton(
                       onPressed: ()=>{
-                        roleId = viewModel.state.roleId,
-                        viewModel.confirmOrder(widget.order)
-                            .then((_) => Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (context) => MainScreen(destinationTab: 2, roleId: roleId,))
-                        )
-                        )
+                        Navigator.of(context).pop()
                       },
                       style: ButtonStyle(
                         backgroundColor: WidgetStateProperty.all(Colors.deepOrange),
