@@ -10,5 +10,5 @@ class ApiLinks {
   static const String bookTableUrl = '/book';
   static const String cancelBookingUrl = '/booking/cancel';
   static const String productsUrl = '/menu';
-
+  static const String createOrder = '/orders/new';
 }

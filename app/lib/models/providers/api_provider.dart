@@ -54,14 +54,29 @@ class ApiProvider {
     return await http.post(url, headers: headers);
   }
 
-  Future<dynamic> getProductsList() async {
-    // ждем список продуктов
-    await Future.delayed(const Duration(seconds: 2));
+  Future<http.Response> getProductsList(String token) async {
+    final url = Uri.parse(ApiLinks.baseUrl + ApiLinks.productsUrl);
+    final headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
+    return await http.get(url, headers:  headers);
   }
 
-  Future<dynamic> proceedOrder(OrderEntity order) async {
-    // отправляем заказ пользователя
-    await Future.delayed(const Duration(seconds: 2));
+  Future<http.Response> proceedOrder(String token, OrderEntity order) async {
+    final url = Uri.parse(ApiLinks.baseUrl + ApiLinks.createOrder);
+    final headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
+    late final Object body;
+    if (order.address != null) {
+      body = jsonEncode({
+        'address': order.address!,
+        'products': order.products.map((p) => {'id': p.id, 'count': p.count}).toList()
+      });
+    }
+    else {
+      body = jsonEncode({
+        'table': order.tableNum!,
+        'products': order.products.map((p) => {'id': p.id, 'count': p.count}).toList()
+      });
+    }
+    return await http.post(url, headers: headers, body: body);
   }
 
   Future<dynamic> updateOrderStatus(int orderId, String newStatus) async {

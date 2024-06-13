@@ -1,15 +1,24 @@
+import 'dart:convert';
+
 import 'package:app/models/entities/order_entity.dart';
 import 'package:app/models/entities/product_entity.dart';
 import 'package:app/models/services/abstract_service.dart';
 
 class OrderService extends AbstractService {
   Future<List<ProductEntity>> getProducts() async {
-    await apiProvider.getProductsList();
-    return [
-      ProductEntity(1, 'Пицца-пицца, паста-паста, карборана-шмара', 120),
-      ProductEntity(2, 'Шаварма', 100),
-      ProductEntity(3, "Кетчунез", 50)
-    ];
+    final token = await storageProvider.loadToken();
+    final response = await apiProvider.getProductsList(token!);
+    final List<ProductEntity> products = [];
+    if (response.statusCode == 200) {
+      for (var productJson in jsonDecode(response.body)) {
+        products.add(ProductEntity(productJson['id'], productJson['name'], productJson['price']));
+      }
+      return products;
+    }
+    else {
+      // TODO обработать ошибку
+      return products;
+    }
   }
 
   Future<void> saveOrder(OrderEntity order) async {
@@ -20,9 +29,14 @@ class OrderService extends AbstractService {
     return await storageProvider.loadOrderFromCache();
   }
 
-  Future<void> proceedOrder(OrderEntity order) async {
-    await apiProvider.proceedOrder(order);
-    await storageProvider.deleteOrderFromCache();
+  Future<bool> proceedOrder(OrderEntity order) async {
+    final token = await storageProvider.loadToken();
+    var response = await apiProvider.proceedOrder(token!, order);
+    if (response.statusCode == 200) {
+      await storageProvider.deleteOrderFromCache();
+      return true;
+    }
+    return false;
   }
 
   Future<dynamic> updateOrderStatus(OrderEntity order, OrderStatus newStatus) async{

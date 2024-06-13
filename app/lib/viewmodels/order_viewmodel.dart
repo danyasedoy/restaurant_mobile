@@ -65,7 +65,13 @@ class OrderViewModel extends AbstractViewModel with ChangeNotifier {
   }
 
   Future<void> confirmOrder(OrderEntity order) async{
-    await service.proceedOrder(order);
+    if (await service.proceedOrder(order)) {
+      state.order = null;
+    }
+    else{
+      // TODO добавить обработку ошибки
+    }
+    notifyListeners();
   }
 
   Future<void> updateOrderStatus(OrderEntity order, OrderStatus newStatus) async {

@@ -34,7 +34,7 @@ class _OrderScreenState extends State<OrderScreen> {
                     actions: [
                       ElevatedButton(
                         onPressed: () => {
-                          Navigator.of(context).pop()
+                          viewModel.saveOrder(order: widget.order).then((_) => Navigator.of(context).pop())
                         },
                         style: ButtonStyle(
                             backgroundColor: WidgetStateProperty.all(Colors.transparent)
@@ -209,8 +209,11 @@ class _OrderScreenState extends State<OrderScreen> {
                     const SizedBox(height: 20,),
                     if (tableNumberController.text.isNotEmpty || addressController.text.isNotEmpty)
                       ElevatedButton(
+                        // TODO добавить анимацию процессинга и обработку ошибок
                       onPressed: ()=>{
-                        Navigator.of(context).pop()
+                        viewModel.confirmOrder(widget.order).then((_) =>
+                            Navigator.of(context).pushReplacementNamed('/main')
+                        )
                       },
                       style: ButtonStyle(
                         backgroundColor: WidgetStateProperty.all(Colors.deepOrange),

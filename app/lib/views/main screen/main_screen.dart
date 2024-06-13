@@ -24,6 +24,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     if (widget.destinationTab != null) _selectedIndex = widget.destinationTab!;
     if (widget.roleId == null || widget.roleId == 1) {
+      _selectedIndex = 1;
       _tabOptions = <Widget>[
         const BookingScreen(),
         const ProductsScreen(),
