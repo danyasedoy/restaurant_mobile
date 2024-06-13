@@ -34,7 +34,7 @@ class StorageProvider {
     await prefs.setString('token', token);
   }
 
-  Future<String?> loadToken(String token) async {
+  Future<String?> loadToken() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
   }

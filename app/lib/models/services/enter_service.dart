@@ -8,7 +8,7 @@ class EnterService extends AbstractService {
     if (response.statusCode == 200) {
       final token = jsonDecode(response.body);
       await storageProvider.saveToken(token);
-      final userDataResponse = await apiProvider.getRoleByToken(token);
+      final userDataResponse = await apiProvider.getProfileByToken(token);
 
       if (userDataResponse.statusCode == 200) {
         await storageProvider.saveUserRoleId(jsonDecode(userDataResponse.body)["role_id"]);

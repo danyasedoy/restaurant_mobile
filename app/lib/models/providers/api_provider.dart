@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:app/models/entities/order_entity.dart';
 import 'package:app/models/providers/api_links.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class ApiProvider {
   Future<http.Response> login(String login, String password) async{
@@ -19,32 +20,38 @@ class ApiProvider {
     return await http.post(url, headers: headers, body: body);
   }
 
-  Future<http.Response> getRoleByToken(String token) async {
+  Future<http.Response> getProfileByToken(String token) async {
     final url = Uri.parse(ApiLinks.baseUrl + ApiLinks.userDataUrl);
     final headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
     return await http.get(url, headers:  headers);
   }
 
-  Future<dynamic> getAvailableTablesByDate(DateTime date) async {
-    // ждем список свободных столиков
-    await Future.delayed(const Duration(seconds: 2));
+  Future<http.Response> getAvailableTablesByDate(String token, DateTime date) async {
+    final query = {
+      'time': DateFormat('dd.MM.yyyy HH:mm').format(date)
+    };
+    final url = Uri.http(ApiLinks.baseUrlNoHttp, ApiLinks.tablesAvailableUrl, query);
+    final headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
+    return await http.get(url, headers:  headers);
   }
 
-  Future<dynamic> getBookingByUser() async {
-    // ждем букинг или его отсутствие
-    // букинг: номер столика и дата
-    await Future.delayed(const Duration(seconds: 2));
+  Future<http.Response> getBookingByUser(String token) async {
+    final url = Uri.parse(ApiLinks.baseUrl + ApiLinks.bookingUrl);
+    final headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
+    return await http.get(url, headers:  headers);
   }
 
-  Future<dynamic> bookTable(DateTime date, int tableNum) async {
-    // ждем ответ - забучили или нет
-    await Future.delayed(const Duration(seconds: 2));
+  Future<http.Response> bookTable(String token, DateTime date, int tableNum) async {
+    final url = Uri.parse(ApiLinks.baseUrl + ApiLinks.bookTableUrl);
+    final headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
+    final body = jsonEncode({'date': DateFormat('dd.MM.yyyy HH:mm').format(date), 'table': tableNum});
+    return await http.post(url, headers: headers, body: body);
   }
 
-  Future<dynamic> cancelBooking() async {
-    // ждем ответ - закенселили или нет
-    // если что то у одного юзера максимум один букинг
-    await Future.delayed(const Duration(seconds: 2));
+  Future<http.Response> cancelBooking(String token) async {
+    final url = Uri.parse(ApiLinks.baseUrl + ApiLinks.cancelBookingUrl);
+    final headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
+    return await http.post(url, headers: headers);
   }
 
   Future<dynamic> getProductsList() async {
@@ -66,9 +73,10 @@ class ApiProvider {
     await Future.delayed(const Duration(seconds: 2));
   }
 
-  Future<dynamic> getPromoMaterials() async {
-    // ждем список вот этих промоновостей ну вы поняли
-    await Future.delayed(const Duration(seconds: 2));
+  Future<http.Response> getPromoMaterials(String token) async {
+    final url = Uri.parse(ApiLinks.baseUrl + ApiLinks.promoUrl);
+    final headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
+    return await http.get(url, headers:  headers);
   }
 
   Future<dynamic> getShiftData() async {

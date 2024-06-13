@@ -58,7 +58,7 @@ class BookingViewModel extends AbstractViewModel with ChangeNotifier {
     if (booking != null) {
       state.booking = booking;
     }
-
+    // TODO учесть что может прийти null
     state.isBookButtonPressed = false;
     state.message = "Бронирование столика успешно!";
     notifyListeners();
