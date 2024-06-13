@@ -1,14 +1,37 @@
-import 'package:app/models/entities/product_entity.dart';
+import 'dart:convert';
+
 import 'package:app/models/services/abstract_service.dart';
+import 'package:intl/intl.dart';
 
 import '../entities/order_entity.dart';
 
 class OrdersListService extends AbstractService {
   Future<List<OrderEntity>> getOrders() async {
-    await apiProvider.getUserOrders();
-    return [
-      OrderEntity.existingWithTable(1, DateTime.now(), 5, OrderStatus.ready, [ProductEntity.withCount(1, 'Шаварма', 999, 2)]),
-      OrderEntity.existingDelivery(2, DateTime.now(), "Moscow MOSCOW MOSCOW MOSCOW MOSCOW MOSCOW MOSKOW", OrderStatus.delivery_taken, [ProductEntity.withCount(1, 'Шаварма', 999, 1), ProductEntity.withCount(2, 'Шмара', 929, 6)])
-    ];
+    final token = await storageProvider.loadToken();
+    final response = await apiProvider.getUserOrders(token!);
+    List<OrderEntity> orders = [];
+    if (response.statusCode == 200) {
+      for (var orderJson in jsonDecode(response.body)) {
+        if (orderJson['address'] == null) {
+          orders.add(OrderEntity.existingWithTable(
+              orderJson['id'],
+              DateFormat('dd.MM.yyyy HH:mm').parse(orderJson['date']),
+              orderJson['table'],
+              statusFromString(orderJson['status']),
+              []
+          ));
+        }
+        else {
+          orders.add(OrderEntity.existingDelivery(
+              orderJson['id'],
+              DateFormat('dd.MM.yyyy HH:mm').parse(orderJson['date']),
+              orderJson['address'],
+              statusFromString(orderJson['status']),
+              []
+          ));
+        }
+      }
+    }
+    return orders;
   }
 }

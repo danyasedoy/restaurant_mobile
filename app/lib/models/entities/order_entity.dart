@@ -84,3 +84,26 @@ extension OrderStatusExtension on OrderStatus {
     }
   }
 }
+
+OrderStatus statusFromString(String status) {
+    switch(status) {
+    case 'Принят':
+    return OrderStatus.confirmed;
+    case 'Обслужен':
+    return OrderStatus.served;
+    case 'Готовится':
+    return OrderStatus.cooking;
+    case 'Готов':
+    return OrderStatus.ready;
+    case 'Передан на доставку':
+    return OrderStatus.delivery_taken;
+    case 'Доставлен':
+    return OrderStatus.delivery_served;
+    case 'Отменён':
+    return OrderStatus.cancelled;
+    default:
+    return OrderStatus.initial;
+  }
+}
+
+

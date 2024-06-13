@@ -79,12 +79,13 @@ class ApiProvider {
     return await http.post(url, headers: headers, body: body);
   }
 
-  Future<dynamic> updateOrderStatus(int orderId, String newStatus) async {
-    await Future.delayed(const Duration(seconds: 2));
+  Future<http.Response> getUserOrders(String token) async {
+    final url = Uri.parse(ApiLinks.baseUrl + ApiLinks.ordersListUrl);
+    final headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
+    return await http.get(url, headers:  headers);
   }
 
-  Future<dynamic> getUserOrders() async {
-    // ждем список заказов пользователя (и старых и активных)
+  Future<dynamic> updateOrderStatus(int orderId, String newStatus) async {
     await Future.delayed(const Duration(seconds: 2));
   }
 
