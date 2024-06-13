@@ -23,7 +23,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     if (widget.destinationTab != null) _selectedIndex = widget.destinationTab!;
-    if (widget.roleId == null || widget.roleId == 0) {
+    if (widget.roleId == null || widget.roleId == 1) {
       _tabOptions = <Widget>[
         const BookingScreen(),
         const ProductsScreen(),
@@ -50,7 +50,7 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ];
     }
-    else if (widget.roleId == 1) {
+    else if (widget.roleId == 3) {
       // экраны официанта
       _tabOptions = <Widget>[
         const ShiftScreen(),

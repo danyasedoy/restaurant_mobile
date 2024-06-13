@@ -1,17 +1,28 @@
+import 'dart:convert';
+
 import 'package:app/models/entities/order_entity.dart';
+import 'package:app/models/providers/api_links.dart';
+import 'package:http/http.dart' as http;
 
 class ApiProvider {
-  Future<dynamic> login(String login, String password) async{
-    // ждем токен
-    await Future.delayed(const Duration(seconds: 2));
+  Future<http.Response> login(String login, String password) async{
+    final url = Uri.parse(ApiLinks.baseUrl + ApiLinks.loginUrl);
+    final headers = {'Content-Type': 'application/json' };
+    final body = jsonEncode({'login': login, 'password': password});
+    return await http.post(url, headers: headers, body: body);
   }
 
-  Future<dynamic> register(String login, String password, String firstName, String lastName, String phoneNumber) async {
-    await Future.delayed(const Duration(seconds: 2));
+  Future<http.Response> register(String login, String password, String firstName, String lastName, String phoneNumber) async {
+    final url = Uri.parse(ApiLinks.baseUrl + ApiLinks.registerUrl);
+    final headers = {'Content-Type': 'application/json' };
+    final body = jsonEncode({ 'login': login, 'password': password, 'first_name': firstName, 'last_name': lastName, 'phone_number': phoneNumber });
+    return await http.post(url, headers: headers, body: body);
   }
 
-  Future<dynamic> getRoleByToken(String token) async {
-    await Future.delayed(const Duration(seconds: 2));
+  Future<http.Response> getRoleByToken(String token) async {
+    final url = Uri.parse(ApiLinks.baseUrl + ApiLinks.userDataUrl);
+    final headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
+    return await http.get(url, headers:  headers);
   }
 
   Future<dynamic> getAvailableTablesByDate(DateTime date) async {
