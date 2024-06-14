@@ -199,6 +199,7 @@ class _OrderScreenState extends State<OrderScreen> {
                       ],
                     ),
                     if (isDelivery)
+                      // TODO подумать о карте
                       TextField(
                         controller: addressController,
                         decoration: const InputDecoration(labelText: 'Адрес доставки'),
@@ -227,6 +228,7 @@ class _OrderScreenState extends State<OrderScreen> {
 
                       ),
                       child: const Row(
+                        // TODO push уведомление о заказе
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text("Оформить заказ", style: TextStyle(color: Colors.white),),

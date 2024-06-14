@@ -32,6 +32,7 @@ class ProductsScreen extends StatelessWidget {
                   right: 16.0,
                   child: FloatingActionButton(
                     onPressed: () {
+                      // TODO еще раз подумать о навигации
                       Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => OrderScreen(order: viewModel.state.order!))
                       );

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 class PromotionScreen extends StatelessWidget {
   const PromotionScreen({super.key});
-
+  // TODO push уведомление какое нибудь
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(

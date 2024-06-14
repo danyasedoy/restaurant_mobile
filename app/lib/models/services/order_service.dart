@@ -40,6 +40,7 @@ class OrderService extends AbstractService {
   }
 
   Future<dynamic> updateOrderStatus(OrderEntity order, OrderStatus newStatus) async{
+    // TODO обработать ошибку
     // if (newStatus == OrderStatus.served) {
     //   await storageProvider.deleteOrderFromCache();
     // }
