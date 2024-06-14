@@ -32,8 +32,7 @@ class ProductsScreen extends StatelessWidget {
                   right: 16.0,
                   child: FloatingActionButton(
                     onPressed: () {
-                      // TODO еще раз подумать о навигации
-                      Navigator.of(context).push(
+                      Navigator.of(context).pushReplacement(
                         MaterialPageRoute(builder: (context) => OrderScreen(order: viewModel.state.order!))
                       );
                     },
@@ -72,6 +71,7 @@ class ProductsList extends StatelessWidget {
               itemBuilder: (context, index) {
                 final product = products[index];
                 return ListTile(
+                  leading: const Icon(Icons.fastfood_outlined),
                   title: Text(product.name),
                   trailing: Text('${product.price} руб.'),
                   onTap: () => viewModel.addProductToOrder(product),

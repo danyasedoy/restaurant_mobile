@@ -19,12 +19,50 @@ class ShiftScreen extends StatelessWidget {
           return Center(child: Text('Ошибка: ${snapshot.error}'));
         } else if (snapshot.hasData) {
           final shift = snapshot.data!;
-          final dateFormat = DateFormat('dd.MM.yyyy');
-          return Column(
-            children: [
-              Text('Рабочие даты: ${shift.workingDates.map((date) => dateFormat.format(date)).join(', ')}'),
-              Text('Номера столов: ${shift.tableNumbers.join(', ')}')
-            ],
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                const Text('Рабочие даты:', style: TextStyle(fontSize: 20)),
+                const Divider(),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 3,
+                  child: ListView.builder(
+                    itemCount: shift.workingDates.length,
+                    itemBuilder: (context, index) =>
+                      Center(
+                        child: Card(
+                          borderOnForeground: true,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0), // Adjust the radius as needed
+                            side: const BorderSide(
+                              color: Colors.deepOrange,
+                              width: 2.0,
+                            ),
+                          ),
+                          elevation: 6,
+                          shadowColor: Colors.deepOrange,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 32),
+                            child: Text(DateFormat("dd.MM.yyyy").format(shift.workingDates[index])),
+                          ),
+                        ),
+                      )
+                  ),
+                ),
+                const Text('Номера столов', style: TextStyle(fontSize: 20)),
+                const Divider(),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 3,
+                  child: Wrap(
+                    direction: Axis.horizontal,
+                    children: shift.tableNumbers.map((num) =>
+                      Chip(label: Text(num.toString()))
+                    ).toList(),
+                  ),
+                ),
+              ],
+            ),
           );
         } else {
           return const Center(child: Text('Нет данных о смене'));

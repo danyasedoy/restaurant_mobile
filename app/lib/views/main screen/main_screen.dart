@@ -61,7 +61,7 @@ class _MainScreenState extends State<MainScreen> {
       ];
       _bottomBarItems = const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.tiktok),
+          icon: Icon(Icons.work),
           label: 'Смена',
         ),
         BottomNavigationBarItem(

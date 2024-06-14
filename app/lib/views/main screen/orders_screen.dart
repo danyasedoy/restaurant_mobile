@@ -14,7 +14,6 @@ class OrdersScreen extends StatefulWidget {
 }
 
 class _OrdersScreenState extends State<OrdersScreen> {
-  // TODO выводить заказы в обратном порядке
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -27,22 +26,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
               Positioned(
                 bottom: 32.0,
                 right: 16.0,
-                child: SizedBox(
-                  width: 150,
-                  height: 50,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all(Colors.white),
-                    ),
-                    onPressed: viewModel.refreshScreen,
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text("Обновить"),
-                        Icon(Icons.update, color: Colors.deepOrange,)
-                      ],
-                    ),
-                  ),
+                child: FloatingActionButton(
+                  onPressed: viewModel.refreshScreen,
+                  child: const Icon(Icons.refresh, color: Colors.white,),
                 ),
               ),
             ]
@@ -90,7 +76,7 @@ class OrdersListBuilder extends StatelessWidget {
                             ],
                           )
                       ),
-                      onTap: viewModel.isClient != null &&  viewModel.isClient!? null: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => OrderScreen(order: order)));},
+                      onTap: viewModel.isClient != null &&  viewModel.isClient!? null: () {Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => OrderScreen(order: order)));},
                     );
                   }
                   else {
@@ -107,7 +93,7 @@ class OrdersListBuilder extends StatelessWidget {
                           ],
                         ),
                       ),
-                      onTap: viewModel.isClient != null &&  viewModel.isClient! ? null: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => OrderScreen(order: order))
+                      onTap: viewModel.isClient != null &&  viewModel.isClient! ? null: () {Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => OrderScreen(order: order))
                       );},
                     );
                   }

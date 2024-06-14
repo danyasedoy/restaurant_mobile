@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:app/models/entities/product_entity.dart';
 import 'package:app/models/services/abstract_service.dart';
 import 'package:intl/intl.dart';
 
@@ -13,13 +14,16 @@ class OrdersListService extends AbstractService {
     if (response.statusCode == 200) {
       for (var orderJson in jsonDecode(response.body)) {
         if (orderJson['address'] == null) {
+          List<ProductEntity> products = [];
+          for (var prodJson in orderJson['products']) {
+            products.add(ProductEntity.fromJson(prodJson));
+          }
           orders.add(OrderEntity.existingWithTable(
               orderJson['id'],
               DateFormat('dd.MM.yyyy HH:mm').parse(orderJson['date']),
               orderJson['table'],
               statusFromString(orderJson['status']),
-              // TODO добавить продукты
-              []
+              products
           ));
         }
         else {

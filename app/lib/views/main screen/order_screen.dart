@@ -14,6 +14,7 @@ class OrderScreen extends StatefulWidget {
 
 class _OrderScreenState extends State<OrderScreen> {
   bool isDelivery = false;
+  bool isLoading = false;
   final TextEditingController addressController = TextEditingController();
   final TextEditingController tableNumberController = TextEditingController();
 
@@ -35,7 +36,9 @@ class _OrderScreenState extends State<OrderScreen> {
                     actions: [
                       ElevatedButton(
                         onPressed: () => {
-                          Navigator.of(context).pop()
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (context) => MainScreen(roleId: viewModel.state.roleId, destinationTab: 2,))
+                          )
                         },
                         style: ButtonStyle(
                             backgroundColor: WidgetStateProperty.all(Colors.transparent)
@@ -123,7 +126,9 @@ class _OrderScreenState extends State<OrderScreen> {
                 ElevatedButton(
                   onPressed: () => {
                     viewModel.saveOrder(order: widget.order),
-                    Navigator.of(context).pop()
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => MainScreen(roleId: viewModel.state.roleId, destinationTab: 2,))
+                    )
                   },
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all(Colors.transparent)
@@ -213,29 +218,34 @@ class _OrderScreenState extends State<OrderScreen> {
                         onChanged: (value) => widget.order.tableNum = int.parse(value),
                       ),
                     const SizedBox(height: 20,),
-                    if (tableNumberController.text.isNotEmpty || addressController.text.isNotEmpty)
-                      ElevatedButton(
-                        // TODO добавить анимацию процессинга и обработку ошибок
-                      onPressed: ()=>{
-                        viewModel.confirmOrder(widget.order).then((_) =>
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(builder: (context) => MainScreen(roleId: viewModel.state.roleId,))
-                            )
-                        )
-                      },
-                      style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all(Colors.deepOrange),
 
-                      ),
-                      child: const Row(
-                        // TODO push уведомление о заказе
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Оформить заказ", style: TextStyle(color: Colors.white),),
-                          SizedBox(width: 10, height: 50,),
-                          Icon(Icons.check_circle, color: Colors.white,)
-                        ],
-                      ),
+                    if (isLoading)
+                      const Center(child: CircularProgressIndicator()),
+
+                    if (!isLoading && (tableNumberController.text.isNotEmpty || addressController.text.isNotEmpty))
+                      ElevatedButton(
+                        onPressed: ()=>{
+                          setState(() {
+                            viewModel.confirmOrder(widget.order).then((_) =>
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(builder: (context) => MainScreen(roleId: viewModel.state.roleId, destinationTab: 2,))
+                              )
+                            );
+                            isLoading = true;
+                          }),
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all(Colors.deepOrange),
+                        ),
+                        child: const Row(
+                          // TODO push уведомление о заказе
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Оформить заказ", style: TextStyle(color: Colors.white),),
+                            SizedBox(width: 10, height: 50,),
+                            Icon(Icons.check_circle, color: Colors.white,)
+                          ],
+                        ),
                     ),
                   ],
                 ),
