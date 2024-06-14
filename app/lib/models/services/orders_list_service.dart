@@ -18,6 +18,7 @@ class OrdersListService extends AbstractService {
               DateFormat('dd.MM.yyyy HH:mm').parse(orderJson['date']),
               orderJson['table'],
               statusFromString(orderJson['status']),
+              // TODO добавить продукты
               []
           ));
         }

@@ -7,11 +7,19 @@ import 'package:flutter/material.dart';
 class OrdersListViewModel extends AbstractViewModel with ChangeNotifier {
   @override
   final OrdersListService service = OrdersListService();
-  late final bool isClient;
+  bool? isClient;
+  int? roleId;
+  var refreshFlag = false;
 
   Future<List<OrderEntity>> fetchOrders() async {
-    isClient = await service.getRoleId() == 0;
+    roleId == null ? roleId = await service.getRoleId() : {};
+    isClient == null ? isClient = roleId == 1 : {};
     return await service.getOrders();
+  }
+
+  refreshScreen() {
+    refreshFlag = !refreshFlag;
+    notifyListeners();
   }
 
 }

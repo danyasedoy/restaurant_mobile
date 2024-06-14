@@ -85,8 +85,11 @@ class ApiProvider {
     return await http.get(url, headers:  headers);
   }
 
-  Future<dynamic> updateOrderStatus(int orderId, String newStatus) async {
-    await Future.delayed(const Duration(seconds: 2));
+  Future<http.Response> updateOrderStatus(String token, int orderId, String newStatus) async {
+    final url = Uri.parse(ApiLinks.baseUrl + ApiLinks.changeOrderStatusUrl.replaceFirst('<id>', orderId.toString()));
+    final headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
+    final body = newStatus;
+    return await http.post(url, headers: headers, body: body);
   }
 
   Future<http.Response> getPromoMaterials(String token) async {
@@ -95,8 +98,10 @@ class ApiProvider {
     return await http.get(url, headers:  headers);
   }
 
-  Future<dynamic> getShiftData() async {
-    await Future.delayed(const Duration(seconds: 2));
+  Future<http.Response> getShiftData(String token) async {
+    final url = Uri.parse(ApiLinks.baseUrl + ApiLinks.shiftUrl);
+    final headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
+    return await http.get(url, headers:  headers);
   }
 
 }

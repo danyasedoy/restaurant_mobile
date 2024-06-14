@@ -1,5 +1,6 @@
 import 'package:app/models/entities/order_entity.dart';
 import 'package:app/viewmodels/order_viewmodel.dart';
+import 'package:app/views/main%20screen/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -34,7 +35,7 @@ class _OrderScreenState extends State<OrderScreen> {
                     actions: [
                       ElevatedButton(
                         onPressed: () => {
-                          viewModel.saveOrder(order: widget.order).then((_) => Navigator.of(context).pop())
+                          Navigator.of(context).pop()
                         },
                         style: ButtonStyle(
                             backgroundColor: WidgetStateProperty.all(Colors.transparent)
@@ -75,7 +76,9 @@ class _OrderScreenState extends State<OrderScreen> {
                             ElevatedButton(
                               onPressed: ()=>{
                                 viewModel.updateOrderStatus(widget.order, OrderStatus.served),
-                                Navigator.of(context).pop()
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(builder: (context) => MainScreen(roleId: viewModel.state.roleId, destinationTab: 2,))
+                                )
                               },
                               style: ButtonStyle(
                                 backgroundColor: WidgetStateProperty.all(Colors.deepOrange),
@@ -86,7 +89,9 @@ class _OrderScreenState extends State<OrderScreen> {
                             ElevatedButton(
                               onPressed: ()=>{
                                 viewModel.updateOrderStatus(widget.order, OrderStatus.delivery_served),
-                                Navigator.of(context).pop()
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(builder: (context) => MainScreen(roleId: viewModel.state.roleId))
+                                )
                               },
                               style: ButtonStyle(
                                 backgroundColor: WidgetStateProperty.all(Colors.deepOrange),
@@ -212,7 +217,9 @@ class _OrderScreenState extends State<OrderScreen> {
                         // TODO добавить анимацию процессинга и обработку ошибок
                       onPressed: ()=>{
                         viewModel.confirmOrder(widget.order).then((_) =>
-                            Navigator.of(context).pushReplacementNamed('/main')
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(builder: (context) => MainScreen(roleId: viewModel.state.roleId,))
+                            )
                         )
                       },
                       style: ButtonStyle(
