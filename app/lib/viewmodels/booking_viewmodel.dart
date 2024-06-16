@@ -57,10 +57,12 @@ class BookingViewModel extends AbstractViewModel with ChangeNotifier {
     final booking = await service.bookTable(state.dateTime!, state.tableNum!);
     if (booking != null) {
       state.booking = booking;
+      state.message = "Бронирование столика успешно!";
     }
-    // TODO учесть что может прийти null
+    else {
+      state.message = 'Что-то пошло не так. Повторите попытку :(';
+    }
     state.isBookButtonPressed = false;
-    state.message = "Бронирование столика успешно!";
     notifyListeners();
   }
 

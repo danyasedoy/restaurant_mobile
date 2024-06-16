@@ -114,6 +114,14 @@ class _OrderScreenState extends State<OrderScreen> {
       create: (context) => OrderViewModel(),
       child: Consumer<OrderViewModel>(
         builder: (context, viewModel, child) {
+          if (viewModel.state.message.isNotEmpty) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(viewModel.state.message)),
+              );
+            });
+            viewModel.state.message = "";
+          }
           return Scaffold(
             appBar: AppBar(
               title: const Text(
@@ -238,7 +246,6 @@ class _OrderScreenState extends State<OrderScreen> {
                           backgroundColor: WidgetStateProperty.all(Colors.deepOrange),
                         ),
                         child: const Row(
-                          // TODO push уведомление о заказе
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text("Оформить заказ", style: TextStyle(color: Colors.white),),

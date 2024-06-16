@@ -72,7 +72,7 @@ class OrderViewModel extends AbstractViewModel with ChangeNotifier {
       state.order = null;
     }
     else{
-      // TODO добавить обработку ошибки
+      state.message = "Ошибка оформления заказа :(";
     }
     notifyListeners();
   }
