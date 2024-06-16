@@ -4,6 +4,8 @@ import 'package:app/models/services/order_service.dart';
 import 'package:app/viewmodels/abstract_viewmodel.dart';
 import 'package:flutter/material.dart';
 
+import '../models/notifications_controller.dart';
+
 class OrderScreenState {
   OrderEntity? order;
   int? roleId;
@@ -66,6 +68,7 @@ class OrderViewModel extends AbstractViewModel with ChangeNotifier {
 
   Future<void> confirmOrder(OrderEntity order) async{
     if (await service.proceedOrder(order)) {
+      NotificationsController.sendSimpleNotification('Заказ в Хрючево', 'Заказ оформлен! Спасибо за то, что выбрали наш ресторан ❤️');
       state.order = null;
     }
     else{

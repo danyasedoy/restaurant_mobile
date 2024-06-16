@@ -1,3 +1,4 @@
+import 'package:app/models/notifications_controller.dart';
 import 'package:app/views/enter%20screen/register_screen.dart';
 import 'package:app/views/main%20screen/main_screen.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'views/enter screen/auth_screen.dart';
 
 void main() {
+  NotificationsController.init();
   runApp(const MyApp());
 }
 
@@ -13,6 +15,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    NotificationsController.checkIfAllowed();
     return MaterialApp(
       title: 'Restaurant',
       initialRoute: '/auth',
