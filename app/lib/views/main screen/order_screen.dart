@@ -21,6 +21,7 @@ class _OrderScreenState extends State<OrderScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.order.products);
     if (widget.order.id != null) {
       return ChangeNotifierProvider(
           create: (context) => OrderViewModel(),
@@ -44,7 +45,7 @@ class _OrderScreenState extends State<OrderScreen> {
                         style: ButtonStyle(
                             backgroundColor: WidgetStateProperty.all(Colors.transparent)
                         ),
-                        child: const Text("К меню",
+                        child: const Text("Назад",
                           style: TextStyle(
                               color: Colors.white
                           ),
@@ -213,12 +214,43 @@ class _OrderScreenState extends State<OrderScreen> {
                       ],
                     ),
                     if (isDelivery)
-                      AddressPicker(initialAddress: '', onAddressSelected: (value){
-                        setState(() {
-                          widget.order.address = value;
-                          addressController.text = value;
-                        });
-                      },)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Text(
+                                addressController.text.isEmpty ? "Выберите адрес" : addressController.text
+                            ),
+                            SizedBox(
+                              height: 50,
+                            ),
+                            SizedBox(
+                              width: 300,
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                  backgroundColor: WidgetStateProperty.all(Colors.deepOrange)
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(builder: (context) =>
+                                      AddressPicker(
+                                        initialAddress: '',
+                                        onAddressSelected: (value) {
+                                          setState(() {
+                                            widget.order.address = value;
+                                            addressController.text = value;
+                                          });
+                                        },
+                                      )
+                                    )
+                                  );
+                                },
+                                child: Text('Выбрать адрес', style: TextStyle(color: Colors.white),)
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
                     else
                       TextField(
                         controller: tableNumberController,

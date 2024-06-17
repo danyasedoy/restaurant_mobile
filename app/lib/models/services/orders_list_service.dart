@@ -13,11 +13,11 @@ class OrdersListService extends AbstractService {
     List<OrderEntity> orders = [];
     if (response.statusCode == 200) {
       for (var orderJson in jsonDecode(response.body)) {
+        List<ProductEntity> products = [];
+        for (var prodJson in orderJson['products']) {
+          products.add(ProductEntity.fromJson(prodJson));
+        }
         if (orderJson['address'] == null) {
-          List<ProductEntity> products = [];
-          for (var prodJson in orderJson['products']) {
-            products.add(ProductEntity.fromJson(prodJson));
-          }
           orders.add(OrderEntity.existingWithTable(
               orderJson['id'],
               DateFormat('dd.MM.yyyy HH:mm').parse(orderJson['date']),
@@ -32,7 +32,7 @@ class OrdersListService extends AbstractService {
               DateFormat('dd.MM.yyyy HH:mm').parse(orderJson['date']),
               orderJson['address'],
               statusFromString(orderJson['status']),
-              []
+              products
           ));
         }
       }

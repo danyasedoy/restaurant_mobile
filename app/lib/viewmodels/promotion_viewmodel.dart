@@ -10,7 +10,7 @@ class PromotionViewModel extends AbstractViewModel with ChangeNotifier {
 
   Future<List<PromotionEntity>> fetchPromotions() async {
     final promotions = await service.getPromotions();
-    NotificationsController.sendScheduledNotification('Специальное предложение!', promotions.first.text, 60 * 60, false);
+    NotificationsController.sendScheduledNotification('Специальное предложение!', promotions.first.text, 10, false);
     return promotions;
   }
 }

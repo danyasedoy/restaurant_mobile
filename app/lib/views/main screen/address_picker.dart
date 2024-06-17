@@ -42,38 +42,49 @@ class AddressPickerState extends State<AddressPicker> {
       setState(() {
         _selectedAddress = '${placemark.subThoroughfare}, ${placemark.street}, ${placemark.locality}';
       });
-      widget.onAddressSelected(_selectedAddress);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 300,
-          child: GoogleMap(
-            mapType: MapType.normal,
-            initialCameraPosition: _kUlyanovsk,
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
-            },
-            onTap: (LatLng position) {
-              _getAddressFromLatLng(position);
-            },
-            gestureRecognizers: {
-              Factory<OneSequenceGestureRecognizer>(() => EagerGestureRecognizer())
-            },
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Ваше местоположение')
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.done, color: Colors.white,),
+        onPressed: () {
+          widget.onAddressSelected(_selectedAddress);
+          Navigator.of(context).pop();
+        },
+      ),
+      body: Column(
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 10 * 7,
+            child: GoogleMap(
+              mapType: MapType.normal,
+              initialCameraPosition: _kUlyanovsk,
+              onMapCreated: (GoogleMapController controller) {
+                _controller.complete(controller);
+              },
+              onTap: (LatLng position) {
+                _getAddressFromLatLng(position);
+              },
+              gestureRecognizers: {
+                Factory<OneSequenceGestureRecognizer>(() => EagerGestureRecognizer())
+              },
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            'Выбранный адрес: $_selectedAddress',
-            style: TextStyle(fontSize: 16),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              'Выбранный адрес: $_selectedAddress',
+              style: TextStyle(fontSize: 16),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

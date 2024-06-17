@@ -57,7 +57,10 @@ class ShiftScreen extends StatelessWidget {
                   child: Wrap(
                     direction: Axis.horizontal,
                     children: shift.tableNumbers.map((num) =>
-                      Chip(label: Text(num.toString()))
+                      Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Chip(label: Text(num.toString())),
+                      )
                     ).toList(),
                   ),
                 ),
