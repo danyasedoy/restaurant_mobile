@@ -14,14 +14,12 @@ class EnterService extends AbstractService {
         await storageProvider.saveUserRoleId(jsonDecode(userDataResponse.body)["role_id"]);
       }
       else  {
-        // TODO ошибки выводи да
         return false;
       }
 
       return true;
     }
     else {
-      // TODO ошибки выводи да
       return false;
     }
   }
@@ -32,7 +30,6 @@ class EnterService extends AbstractService {
       return true;
     }
     else {
-      // TODO ошибки выводи да
       return false;
     }
   }

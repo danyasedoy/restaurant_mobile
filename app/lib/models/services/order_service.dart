@@ -16,7 +16,6 @@ class OrderService extends AbstractService {
       return products;
     }
     else {
-      // TODO обработать ошибку
       return products;
     }
   }
@@ -39,12 +38,8 @@ class OrderService extends AbstractService {
     return false;
   }
 
-  Future<dynamic> updateOrderStatus(OrderEntity order, OrderStatus newStatus) async{
-    // TODO обработать ошибку
-    // if (newStatus == OrderStatus.served) {
-    //   await storageProvider.deleteOrderFromCache();
-    // }
+  Future<void> updateOrderStatus(OrderEntity order, OrderStatus newStatus) async{
     final token = await storageProvider.loadToken();
-    final response = await apiProvider.updateOrderStatus(token!, order.id!, newStatus.statusString);
+    await apiProvider.updateOrderStatus(token!, order.id!, newStatus.statusString);
   }
 }

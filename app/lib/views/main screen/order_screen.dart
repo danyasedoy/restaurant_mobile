@@ -3,6 +3,7 @@ import 'package:app/viewmodels/order_viewmodel.dart';
 import 'package:app/views/main%20screen/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'address_picker.dart';
 
 class OrderScreen extends StatefulWidget {
   const OrderScreen({super.key, required this.order});
@@ -157,7 +158,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height / 2,
+                      height: MediaQuery.of(context).size.height / 4,
                       child: ListView.separated(
                           itemBuilder: (context, index) {
                             final product = widget.order.products[index];
@@ -212,12 +213,12 @@ class _OrderScreenState extends State<OrderScreen> {
                       ],
                     ),
                     if (isDelivery)
-                      // TODO подумать о карте
-                      TextField(
-                        controller: addressController,
-                        decoration: const InputDecoration(labelText: 'Адрес доставки'),
-                        onChanged: (value) => widget.order.address = value,
-                      )
+                      AddressPicker(initialAddress: '', onAddressSelected: (value){
+                        setState(() {
+                          widget.order.address = value;
+                          addressController.text = value;
+                        });
+                      },)
                     else
                       TextField(
                         controller: tableNumberController,
@@ -264,4 +265,7 @@ class _OrderScreenState extends State<OrderScreen> {
     );
   }
 }
+
+
+
 
