@@ -3,7 +3,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 class NotificationsController {
   static init() {
     AwesomeNotifications().initialize(
-      null,
+      'resource://drawable/ic_stat_output_onlinepngtools',
       [
         NotificationChannel(
           channelKey: 'basic_channel',
