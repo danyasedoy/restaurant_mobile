@@ -74,7 +74,7 @@ class _OrderScreenState extends State<OrderScreen> {
                               itemCount: widget.order.products.length
                             ),
                           ),
-                          if (widget.order.status != OrderStatus.ready && widget.order.status != OrderStatus.delivery_taken)
+                          if ((widget.order.status != OrderStatus.ready && widget.order.status != OrderStatus.delivery_taken) || viewModel.state.roleId == 1)
                             Text("Статус заказа: ${widget.order.status.statusString}", )
                           else if (widget.order.tableNum != null)
                             ElevatedButton(

@@ -23,6 +23,7 @@ class OrderViewModel extends AbstractViewModel with ChangeNotifier {
 
   Future<void> fetchRoleId() async {
     state.roleId = await service.getRoleId();
+    notifyListeners();
   }
 
   Future<List<ProductEntity>> fetchProducts() async {
