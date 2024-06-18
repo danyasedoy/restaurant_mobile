@@ -49,10 +49,10 @@ class AddressPickerState extends State<AddressPicker> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ваше местоположение')
+        title: const Text('Ваше местоположение')
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.done, color: Colors.white,),
+        child: const Icon(Icons.done, color: Colors.white,),
         onPressed: () {
           widget.onAddressSelected(_selectedAddress);
           Navigator.of(context).pop();
@@ -80,7 +80,7 @@ class AddressPickerState extends State<AddressPicker> {
             padding: const EdgeInsets.all(16.0),
             child: Text(
               'Выбранный адрес: $_selectedAddress',
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
           ),
         ],

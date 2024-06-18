@@ -83,10 +83,9 @@ class RegisterScreen extends StatelessWidget {
                     TextField(
                       decoration: InputDecoration(
                         hintText: 'Введите логин',
-                        errorText: viewModel.state.isLoginValid ? null : 'Введите корректный логин',
+                        errorText: viewModel.state.isLoginValid ? null : 'Слишком короткий логин',
                         prefixIcon: Icon(viewModel.state.isLoginValid ? Icons.check : Icons.error),
                       ),
-
                       onChanged: (text) {
                         viewModel.validateLogin(text);
                       },
@@ -95,7 +94,7 @@ class RegisterScreen extends StatelessWidget {
                       obscureText: true,
                       decoration:  InputDecoration(
                         hintText: 'Введите пароль',
-                        errorText: viewModel.state.isPasswordValid ? null : 'Введите корректный пароль',
+                        errorText: viewModel.state.isPasswordValid ? null : 'Слишком короткий пароль',
                         prefixIcon: Icon(viewModel.state.isPasswordValid ? Icons.check : Icons.error),
                       ),
                       onChanged: (text) {

@@ -21,7 +21,6 @@ class _OrderScreenState extends State<OrderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.order.products);
     if (widget.order.id != null) {
       return ChangeNotifierProvider(
           create: (context) => OrderViewModel(),
@@ -221,7 +220,7 @@ class _OrderScreenState extends State<OrderScreen> {
                             Text(
                                 addressController.text.isEmpty ? "Выберите адрес" : addressController.text
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 50,
                             ),
                             SizedBox(
@@ -245,7 +244,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                     )
                                   );
                                 },
-                                child: Text('Выбрать адрес', style: TextStyle(color: Colors.white),)
+                                child: const Text('Выбрать адрес', style: TextStyle(color: Colors.white),)
                               ),
                             ),
                           ],
@@ -263,7 +262,7 @@ class _OrderScreenState extends State<OrderScreen> {
                     if (isLoading)
                       const Center(child: CircularProgressIndicator()),
 
-                    if (!isLoading && (tableNumberController.text.isNotEmpty || addressController.text.isNotEmpty))
+                    if (!isLoading && (tableNumberController.text.isNotEmpty || addressController.text.isNotEmpty) && widget.order.products.isNotEmpty)
                       ElevatedButton(
                         onPressed: ()=>{
                           setState(() {
