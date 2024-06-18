@@ -14,4 +14,5 @@ class ApiLinks {
   static const String changeOrderStatusUrl = '/order/<id>/status';
   static const String ordersListUrl = '/orders';
   static const String shiftUrl = '/employee/shift';
+  static const String reportDataUrl = '/report/employee';
 }

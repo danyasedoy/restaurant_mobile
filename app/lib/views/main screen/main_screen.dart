@@ -1,3 +1,4 @@
+import 'package:app/views/main%20screen/chart_screen.dart';
 import 'package:app/views/main%20screen/products_screen.dart';
 import 'package:app/views/main%20screen/promotion_screen.dart';
 import 'package:app/views/main%20screen/shift_screen.dart';
@@ -58,6 +59,7 @@ class _MainScreenState extends State<MainScreen> {
         const ShiftScreen(),
         const ProductsScreen(),
         const OrdersScreen(),
+        const ChartScreen()
       ];
       _bottomBarItems = const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
@@ -71,6 +73,10 @@ class _MainScreenState extends State<MainScreen> {
         BottomNavigationBarItem(
           icon: Icon(Icons.view_list),
           label: 'Заказы',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.data_thresholding),
+          label: 'Статистика',
         ),
       ];
     }

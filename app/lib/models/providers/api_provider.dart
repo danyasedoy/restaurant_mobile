@@ -104,4 +104,10 @@ class ApiProvider {
     return await http.get(url, headers:  headers);
   }
 
+  Future<http.Response> getReportData(String token) async {
+    final url = Uri.parse(ApiLinks.baseUrl + ApiLinks.reportDataUrl);
+    final headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'};
+    return await http.get(url, headers:  headers);
+  }
+
 }
