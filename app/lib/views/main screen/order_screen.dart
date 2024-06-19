@@ -38,7 +38,7 @@ class _OrderScreenState extends State<OrderScreen> {
                       ElevatedButton(
                         onPressed: () => {
                           Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (context) => MainScreen(roleId: viewModel.state.roleId, destinationTab: 2,))
+                            MaterialPageRoute(builder: (context) => MainScreen(roleId: viewModel.state.roleId, destinationTab:0,))
                           )
                         },
                         style: ButtonStyle(
