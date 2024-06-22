@@ -1,6 +1,12 @@
+import 'package:app/models/notifications_controller.dart';
+import 'package:app/views/enter%20screen/register_screen.dart';
+import 'package:app/views/main%20screen/main_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'views/enter screen/auth_screen.dart';
+
 void main() {
+  NotificationsController.init();
   runApp(const MyApp());
 }
 
@@ -9,23 +15,33 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    NotificationsController.checkIfAllowed();
     return MaterialApp(
       title: 'Restaurant',
+      initialRoute: '/auth',
+      routes: {
+        '/auth': (context) => const AuthScreen(),
+        '/register': (context) => const RegisterScreen(),
+        '/main': (context) => const MainScreen()
+      },
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: const ColorScheme(
+          brightness: Brightness.dark,
+          primary: Colors.deepOrange,
+          onPrimary: Colors.deepOrangeAccent,
+          secondary: Colors.yellow,
+          onSecondary: Colors.yellowAccent,
+          error: Colors.red,
+          onError: Colors.redAccent,
+          surface: Colors.black,
+          onSurface: Colors.deepOrangeAccent,
+        ),
         useMaterial3: true,
       ),
-      home: const AuthScreen(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class AuthScreen extends StatelessWidget {
-  const AuthScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
 
